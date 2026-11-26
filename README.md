@@ -2,7 +2,7 @@
 
 <img src="assets/hiak_mascot.gif" alt="hiak — pixel lockup & moving mascot" width="460" />
 
-<img src="assets/terminal_card.svg" alt="hiak / harsha — terminal identity card" width="760" />
+<img src="assets/terminal_card.svg" alt="hiak / harsha — animated terminal identity card" width="760" />
 
 <br />
 
@@ -14,14 +14,7 @@
 
 <img src="assets/header_about.svg" alt="about" width="760" />
 
-```text
-> whoami
-  hiak / harsha — developer & systems tinkerer
-
-> focus
-  building agentic AI workflows, quantitative pipelines,
-  terminal-first developer tools, and full-stack software.
-```
+<img src="assets/about_card.svg" alt="about hiak / harsha" width="760" />
 
 <img src="assets/header_builds.svg" alt="builds" width="760" />
 
@@ -76,11 +69,8 @@
 
 <div align="center">
 
-<img src="https://github-readme-stats.vercel.app/api?username=Hiak-Harsha&show_icons=true&bg_color=0A0A0A&border_color=282828&title_color=EEEEEE&text_color=808080&icon_color=d97706&hide_border=false" height="155" alt="GitHub Stats" />
-<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=Hiak-Harsha&layout=compact&bg_color=0A0A0A&border_color=282828&title_color=EEEEEE&text_color=808080&hide_border=false" height="155" alt="Top Languages" />
+<img src="assets/stats_card.svg" alt="GitHub Telemetry & Top Languages" width="760" />
 
-<br />
-
-[![GitHub Streak](https://streak-stats.demolab.com?user=Hiak-Harsha&background=0A0A0A&border=282828&stroke=282828&ring=d97706&fire=d97706&currStreakNum=EEEEEE&sideNums=EEEEEE&currStreakLabel=d97706&sideLabels=808080&dates=808080)](https://git.io/streak-stats)
+<img src="assets/contrib_graph.svg" alt="GitHub Contribution Heatmap" width="760" />
 
 </div>
