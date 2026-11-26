@@ -18,9 +18,9 @@
 
 <img src="assets/header_builds.svg" alt="builds" width="760" />
 
-- [`Quant-Alpha-Engine`](https://github.com/Hiak-Harsha/Quant-Alpha-Engine) — multi-horizon market analysis, causal feature engineering & walk-forward backtesting
-- [`dynamic-dual-model`](https://github.com/Hiak-Harsha/dynamic-dual-model) — dual-path LLM routing between deterministic muscle memory and deliberative reasoning
-- [`custom-avatar-studio`](https://github.com/Hiak-Harsha/custom-avatar-studio) — pixel typography engine & moving terminal/desktop mascot companion
+<a href="https://github.com/Hiak-Harsha/Quant-Alpha-Engine"><img src="assets/build_quant.svg" alt="Quant-Alpha-Engine" width="760" /></a>
+<a href="https://github.com/Hiak-Harsha/dynamic-dual-model"><img src="assets/build_dual.svg" alt="dynamic-dual-model" width="760" /></a>
+<a href="https://github.com/Hiak-Harsha/custom-avatar-studio"><img src="assets/build_avatar.svg" alt="custom-avatar-studio" width="760" /></a>
 
 <details>
 <summary><code>+ more builds (click to expand)</code></summary>
@@ -50,6 +50,8 @@
 
 </details>
 
+<!-- OSS_START --><!-- OSS_END -->
+
 <img src="assets/header_stack.svg" alt="stack" width="760" />
 
 ![Python](https://img.shields.io/badge/Python-0A0A0A?style=flat-square&logo=python&logoColor=EEEEEE)
@@ -72,5 +74,7 @@
 <img src="assets/stats_card.svg" alt="GitHub Telemetry & Top Languages" width="760" />
 
 <img src="assets/contrib_graph.svg" alt="GitHub Contribution Heatmap" width="760" />
+
+<img src="assets/footer.svg" alt="hiak terminal footer" width="760" />
 
 </div>

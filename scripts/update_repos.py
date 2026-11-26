@@ -193,9 +193,20 @@ def fetch_profile_data() -> dict:
     owned_public = [r for r in repos if not r.get("fork") and not r.get("private")]
     listed_repos = [r for r in owned_public if r["name"] not in TOP_MENTIONS]
 
-    # Latest active non-profile repo
+    # Latest active non-profile repo: prefer real recent PushEvent over repo pushed_at metadata
     active_repos = [r for r in owned_public if r["name"] != USERNAME]
     latest_repo = active_repos[0]["name"] if active_repos else "custom-avatar-studio"
+    try:
+        events = json.loads(http_get(f"https://api.github.com/users/{USERNAME}/events/public?per_page=30"))
+        for ev in events:
+            if ev.get("type") == "PushEvent":
+                repo_full = (ev.get("repo") or {}).get("name", "")
+                repo_short = repo_full.split("/")[-1]
+                if repo_short and repo_short != USERNAME:
+                    latest_repo = repo_short
+                    break
+    except Exception:
+        pass
 
     # Language distribution across owned public repos (weighted by repo size)
     lang_weights: dict[str, int] = {}
@@ -259,11 +270,19 @@ def fetch_profile_data() -> dict:
 
     total_prs = 0
     total_issues = 0
+    external_prs: list[dict] = []
     try:
         pr_res = json.loads(http_get(f"https://api.github.com/search/issues?q=author:{USERNAME}+type:pr"))
         total_prs = int(pr_res.get("total_count", 0))
         iss_res = json.loads(http_get(f"https://api.github.com/search/issues?q=author:{USERNAME}+type:issue"))
         total_issues = int(iss_res.get("total_count", 0))
+        ext_res = json.loads(
+            http_get(
+                f"https://api.github.com/search/issues"
+                f"?q=author:{USERNAME}+type:pr+is:merged+-user:{USERNAME}&sort=updated&order=desc&per_page=10"
+            )
+        )
+        external_prs = ext_res.get("items", [])
     except Exception:
         pass
 
@@ -272,6 +291,7 @@ def fetch_profile_data() -> dict:
         "total_stars": total_stars,
         "total_prs": total_prs,
         "total_issues": total_issues,
+        "external_prs": external_prs,
         "latest_repo": latest_repo,
         "listed_repos": listed_repos,
         "lang_weights": lang_weights,
@@ -492,12 +512,59 @@ def write_stats_card(data: dict) -> None:
   <line x1="{bar_x}" y1="160" x2="{bar_x + bar_w}" y2="160" stroke="#282828" stroke-width="1"/>
   <g opacity="0">
     <animate attributeName="opacity" from="0" to="1" begin="2.25s" dur="0.30s" fill="freeze"/>
-    <text x="{bar_x}" y="179" font-family="{FONT_MONO}" font-size="11.5" fill="{GRAY}">active streak <tspan fill="{AMBER}" font-weight="700">{html.escape(cur_str)}</tspan></text>
+    <text x="{bar_x}" y="179" font-family="{FONT_MONO}" font-size="11.5" fill="{GRAY}">active streak <tspan fill="{AMBER}" font-weight="700">{html.escape(cur_str)}<animate attributeName="opacity" values="1;0.65;1" dur="3.2s" begin="3.0s" repeatCount="indefinite"/></tspan></text>
     <text x="{bar_x}" y="195" font-family="{FONT_MONO}" font-size="11.5" fill="{GRAY}">longest streak <tspan fill="{WHITE}" font-weight="700">{html.escape(best_str)}</tspan></text>
   </g>
 </svg>
 '''
     (ASSETS_DIR / "stats_card.svg").write_text(svg, encoding="utf-8")
+
+
+def write_build_card(filename: str, name: str, desc: str, lang: str, delay: float) -> None:
+    """Create a sleek animated OpenCode build-mention card (wrapped in <a> in README)."""
+    w, h = 760, 58
+    svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" viewBox="0 0 {w} {h}" role="img" aria-label="{html.escape(name)}">
+  <defs>
+    <clipPath id="bc-{html.escape(name)}"><rect x="28" y="8" width="0" height="44"><animate attributeName="width" from="0" to="640" begin="{delay + 0.12:.2f}s" dur="0.42s" fill="freeze"/></rect></clipPath>
+  </defs>
+  <g opacity="0">
+    <animate attributeName="opacity" from="0" to="1" begin="{delay:.2f}s" dur="0.25s" fill="freeze"/>
+    <rect x="0.5" y="0.5" width="{w - 1}" height="{h - 1}" rx="10" fill="{BG}" stroke="#282828"/>
+    <rect x="14" y="14" width="3" height="30" rx="1.5" fill="{AMBER}">
+      <animate attributeName="opacity" values="1;0.45;1" dur="3.0s" begin="{delay + 1.0:.2f}s" repeatCount="indefinite"/>
+    </rect>
+    <g clip-path="url(#bc-{html.escape(name)})">
+      <text x="30" y="25" font-family="{FONT_MONO}" font-size="13" font-weight="700" fill="{WHITE}">{html.escape(name)}</text>
+      <text x="30" y="43" font-family="{FONT_MONO}" font-size="11.5" fill="{GRAY}">{html.escape(desc)}</text>
+    </g>
+    <rect x="{w - 92}" y="17" width="66" height="22" rx="5" fill="#141414" stroke="#282828"/>
+    <text x="{w - 59}" y="32" text-anchor="middle" font-family="{FONT_MONO}" font-size="10.5" fill="{GRAY}">{html.escape(lang)}</text>
+    <text x="{w - 14}" y="33" text-anchor="end" font-family="{FONT_MONO}" font-size="12" fill="{AMBER}">&#8599;</text>
+  </g>
+</svg>
+'''
+    (ASSETS_DIR / filename).write_text(svg, encoding="utf-8")
+
+
+def write_footer_card() -> None:
+    """Create animated OpenCode terminal footer matching terminal_card.svg."""
+    w, h = 760, 62
+    mascot = mini_mascot_svg(698, 14)
+    svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" viewBox="0 0 {w} {h}" role="img" aria-label="hiak terminal footer">
+  <defs>
+    <clipPath id="ft-cmd"><rect x="24" y="12" width="0" height="38"><animate attributeName="width" from="0" to="620" begin="2.35s" dur="0.50s" fill="freeze"/></rect></clipPath>
+  </defs>
+  <rect x="0.5" y="0.5" width="{w - 1}" height="{h - 1}" rx="10" fill="{BG}" stroke="#282828"/>
+  <g clip-path="url(#ft-cmd)">
+    <text x="24" y="36" font-family="{FONT_MONO}" font-size="12.5" fill="{GRAY}"><tspan fill="{AMBER}" font-weight="700">hiak@github</tspan><tspan fill="#555555">:~$ </tspan><tspan fill="{WHITE}">exit 0</tspan>  <tspan fill="#555555">// thanks for stopping by</tspan></text>
+  </g>
+  <rect x="388" y="25" width="7" height="13" fill="{AMBER}" opacity="0">
+    <animate attributeName="opacity" values="0;0;1;1;0;0;1" keyTimes="0;0.45;0.46;0.70;0.71;0.95;1" dur="2.2s" begin="2.35s" repeatCount="indefinite"/>
+  </rect>
+  {mascot}
+</svg>
+'''
+    (ASSETS_DIR / "footer.svg").write_text(svg, encoding="utf-8")
 
 
 def write_contrib_graph(data: dict) -> None:
@@ -562,9 +629,35 @@ def write_contrib_graph(data: dict) -> None:
   <text x="{w - 20}" y="25" font-family="{FONT_MONO}" font-size="10.5" fill="#666666">more</text>
 
   {"".join(cols_svg)}
+
+  <!-- Subtle ambient scan beam across heatmap after initial reveal -->
+  <rect x="{ox - 20}" y="{oy - 2}" width="14" height="{7 * step}" rx="3" fill="{AMBER}" opacity="0">
+    <animate attributeName="x" from="{ox - 20}" to="{ox + 53 * step + 10}" begin="3.4s" dur="7.5s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0;0.14;0.14;0;0" keyTimes="0;0.12;0.75;0.88;1" begin="3.4s" dur="7.5s" repeatCount="indefinite"/>
+  </rect>
 </svg>
 '''
     (ASSETS_DIR / "contrib_graph.svg").write_text(svg, encoding="utf-8")
+
+
+def format_oss_block(external_prs: list[dict]) -> str:
+    if not external_prs:
+        return "<!-- OSS_START --><!-- OSS_END -->"
+    items = []
+    for pr in external_prs[:8]:
+        repo_name = "/".join(pr["repository_url"].split("/")[-2:])
+        title = pr["title"]
+        url = pr["html_url"]
+        items.append(f"- [`{repo_name}`]({url}) — {title}")
+    joined = "\n".join(items)
+    return (
+        "<!-- OSS_START -->\n"
+        "<details>\n"
+        "<summary><code>+ external open-source PRs (click to expand)</code></summary>\n\n"
+        f"{joined}\n\n"
+        "</details>\n"
+        "<!-- OSS_END -->"
+    )
 
 
 def main() -> None:
@@ -575,13 +668,35 @@ def main() -> None:
     write_terminal_card(data["latest_repo"])
     write_section_header("header_about.svg", "about", "01 // profile", base_delay=0.55)
     write_about_card()
-    write_section_header("header_builds.svg", "builds", "02 // mentions", base_delay=1.10)
-    write_section_header("header_stack.svg", "stack", "03 // toolkit", base_delay=1.45)
+    write_section_header("header_builds.svg", "builds", "02 // mentions", base_delay=1.05)
+    write_build_card(
+        "build_quant.svg",
+        "Quant-Alpha-Engine",
+        "multi-horizon market analysis, causal features & walk-forward backtesting",
+        "Python",
+        delay=1.18,
+    )
+    write_build_card(
+        "build_dual.svg",
+        "dynamic-dual-model",
+        "dual-path LLM routing between deterministic muscle memory & reasoning",
+        "Python",
+        delay=1.32,
+    )
+    write_build_card(
+        "build_avatar.svg",
+        "custom-avatar-studio",
+        "OpenCode pixel typography engine & moving terminal/desktop mascot companion",
+        "Python",
+        delay=1.46,
+    )
+    write_section_header("header_stack.svg", "stack", "03 // toolkit", base_delay=1.55)
     write_section_header("header_stats.svg", "stats", "04 // telemetry", base_delay=1.75)
     write_stats_card(data)
     write_contrib_graph(data)
+    write_footer_card()
 
-    # Update expandable repo list inside README.md
+    # Update expandable repo list & external OSS PR block inside README.md
     readme = README_PATH.read_text(encoding="utf-8")
     pattern = re.compile(r"<!-- REPOS_START -->.*?<!-- REPOS_END -->", re.DOTALL)
     if not pattern.search(readme):
@@ -590,12 +705,18 @@ def main() -> None:
     lines = "\n".join(format_repo_line(r) for r in data["listed_repos"])
     replacement = f"<!-- REPOS_START -->\n{lines}\n<!-- REPOS_END -->"
     updated = pattern.sub(replacement, readme, count=1)
+
+    oss_pattern = re.compile(r"<!-- OSS_START -->.*?<!-- OSS_END -->", re.DOTALL)
+    if oss_pattern.search(updated):
+        updated = oss_pattern.sub(format_oss_block(data["external_prs"]), updated, count=1)
+
     if updated != readme:
         README_PATH.write_text(updated, encoding="utf-8")
 
     print(
-        f"Synced {len(data['listed_repos'])} repos, latest={data['latest_repo']}, "
-        f"contribs={data['total_contribs']}, streak={data['current_streak']}d/{data['longest_streak']}d"
+        f"Synced {len(data['listed_repos'])} repos, ext_prs={len(data['external_prs'])}, "
+        f"latest={data['latest_repo']}, contribs={data['total_contribs']}, "
+        f"streak={data['current_streak']}d/{data['longest_streak']}d"
     )
 
 
