@@ -213,37 +213,74 @@ def fetch_profile_data() -> dict:
     total_match = re.search(r"([\d,]+)\s+contributions\s+in\s+the\s+last\s+year", contrib_html)
     total_contribs = total_match.group(1) if total_match else str(sum(1 for v in day_map.values() if v > 0))
 
-    # Compute current & longest active-day streaks from day_map
+    def fmt_range(start_iso: str | None, end_iso: str | None) -> str:
+        if not start_iso or not end_iso:
+            return "—"
+        s_dt = date.fromisoformat(start_iso)
+        e_dt = date.fromisoformat(end_iso)
+        if s_dt == e_dt:
+            return s_dt.strftime("%b %d").replace(" 0", " ")
+        s_str = s_dt.strftime("%b %d").replace(" 0", " ")
+        e_str = e_dt.strftime("%b %d" if s_dt.month != e_dt.month else "%d").replace(" 0", " ")
+        return f"{s_str}–{e_str}"
+
+    # Compute current & longest active-day streaks with date ranges from day_map
     sorted_dates = sorted(day_map.keys())
     longest_streak = 0
+    longest_start = longest_end = None
     run = 0
+    run_start = None
     for d in sorted_dates:
         if day_map[d] > 0:
+            if run == 0:
+                run_start = d
             run += 1
-            longest_streak = max(longest_streak, run)
+            if run >= longest_streak:
+                longest_streak = run
+                longest_start = run_start
+                longest_end = d
         else:
             run = 0
+            run_start = None
 
     current_streak = 0
+    cur_start = cur_end = None
     if sorted_dates:
         idx = len(sorted_dates) - 1
         # Allow today to be 0 if yesterday had activity
         if day_map[sorted_dates[idx]] == 0 and idx > 0 and day_map[sorted_dates[idx - 1]] > 0:
             idx -= 1
+        if day_map[sorted_dates[idx]] > 0:
+            cur_end = sorted_dates[idx]
         while idx >= 0 and day_map[sorted_dates[idx]] > 0:
+            cur_start = sorted_dates[idx]
             current_streak += 1
             idx -= 1
+
+    total_prs = 0
+    total_issues = 0
+    try:
+        pr_res = json.loads(http_get(f"https://api.github.com/search/issues?q=author:{USERNAME}+type:pr"))
+        total_prs = int(pr_res.get("total_count", 0))
+        iss_res = json.loads(http_get(f"https://api.github.com/search/issues?q=author:{USERNAME}+type:issue"))
+        total_issues = int(iss_res.get("total_count", 0))
+    except Exception:
+        pass
 
     return {
         "public_repos": int(user.get("public_repos", len(owned_public))),
         "total_stars": total_stars,
+        "total_prs": total_prs,
+        "total_issues": total_issues,
         "latest_repo": latest_repo,
         "listed_repos": listed_repos,
         "lang_weights": lang_weights,
         "day_map": day_map,
         "total_contribs": total_contribs,
         "current_streak": current_streak,
+        "current_streak_range": fmt_range(cur_start, cur_end),
         "longest_streak": longest_streak,
+        "longest_streak_range": fmt_range(longest_start, longest_end),
     }
 
 
@@ -380,7 +417,7 @@ def write_about_card() -> None:
 
 
 def write_stats_card(data: dict) -> None:
-    w, h = 760, 174
+    w, h = 760, 204
     lang_weights: dict[str, int] = data["lang_weights"]
     total_w = max(1, sum(lang_weights.values()))
     top_langs = sorted(lang_weights.items(), key=lambda kv: kv[1], reverse=True)[:5]
@@ -388,7 +425,7 @@ def write_stats_card(data: dict) -> None:
     bar_colors = [AMBER, WHITE, GRAY, "#525252", "#3A3A3A"]
     bar_x, bar_y, bar_w = 398, 48, 330
 
-    # Build animated stacked bar + individual language progress bars
+    # Build animated stacked bar + individual language rows
     lang_rows = []
     stacked_segs = []
     cur_x = float(bar_x)
@@ -396,7 +433,7 @@ def write_stats_card(data: dict) -> None:
         pct = (weight / total_w) * 100.0
         seg_w = max(4.0, (weight / total_w) * bar_w)
         col = bar_colors[idx % len(bar_colors)]
-        delay = 1.85 + idx * 0.12
+        delay = 1.85 + idx * 0.10
 
         stacked_segs.append(
             f'<rect x="{cur_x:.1f}" y="{bar_y}" width="0" height="8" fill="{col}">'
@@ -405,7 +442,7 @@ def write_stats_card(data: dict) -> None:
         )
         cur_x += seg_w
 
-        ry = 76 + idx * 19
+        ry = 74 + idx * 18
         lang_rows.append(
             f'<circle cx="{bar_x + 5}" cy="{ry - 4}" r="3.5" fill="{col}"/>'
             f'<text x="{bar_x + 16}" y="{ry}" font-family="{FONT_MONO}" font-size="11.5" fill="{WHITE}">{html.escape(lang)}</text>'
@@ -413,14 +450,15 @@ def write_stats_card(data: dict) -> None:
         )
 
     metrics = [
-        ("public repos", str(data["public_repos"]), AMBER, 1.80),
-        ("contributions (1y)", str(data["total_contribs"]), WHITE, 1.92),
-        ("longest streak", f"{data['longest_streak']}d", GRAY, 2.04),
-        ("active streak", f"{data['current_streak']}d", AMBER, 2.16),
+        ("contributions (1y)", str(data["total_contribs"]), AMBER, 1.80),
+        ("total stars", str(data["total_stars"]), WHITE, 1.90),
+        ("public repos", str(data["public_repos"]), WHITE, 2.00),
+        ("pull requests", str(data["total_prs"]), GRAY, 2.10),
+        ("issues", str(data["total_issues"]), GRAY, 2.20),
     ]
     metric_lines = []
     for idx, (label, val, val_col, delay) in enumerate(metrics):
-        my = 58 + idx * 27
+        my = 58 + idx * 28
         metric_lines.append(
             f'<g opacity="0">'
             f'<animate attributeName="opacity" from="0" to="1" begin="{delay:.2f}s" dur="0.28s" fill="freeze"/>'
@@ -429,6 +467,9 @@ def write_stats_card(data: dict) -> None:
             f'<line x1="26" y1="{my + 8}" x2="342" y2="{my + 8}" stroke="#191919" stroke-width="1"/>'
             f'</g>'
         )
+
+    cur_str = f"{data['current_streak']}d ({data['current_streak_range']})"
+    best_str = f"{data['longest_streak']}d ({data['longest_streak_range']})"
 
     svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" viewBox="0 0 {w} {h}" role="img" aria-label="Hiak-Harsha GitHub telemetry">
   <rect x="0.5" y="0.5" width="{w - 1}" height="{h - 1}" rx="12" fill="{BG}" stroke="#282828"/>
@@ -440,13 +481,20 @@ def write_stats_card(data: dict) -> None:
 
   {"".join(metric_lines)}
 
-  <line x1="370" y1="22" x2="370" y2="152" stroke="#282828" stroke-width="1"/>
+  <line x1="370" y1="22" x2="370" y2="{h - 20}" stroke="#282828" stroke-width="1"/>
 
   <rect x="{bar_x}" y="{bar_y}" width="{bar_w}" height="8" rx="4" fill="#171717"/>
   <g>
     {"".join(stacked_segs)}
   </g>
   {"".join(lang_rows)}
+
+  <line x1="{bar_x}" y1="160" x2="{bar_x + bar_w}" y2="160" stroke="#282828" stroke-width="1"/>
+  <g opacity="0">
+    <animate attributeName="opacity" from="0" to="1" begin="2.25s" dur="0.30s" fill="freeze"/>
+    <text x="{bar_x}" y="179" font-family="{FONT_MONO}" font-size="11.5" fill="{GRAY}">active streak <tspan fill="{AMBER}" font-weight="700">{html.escape(cur_str)}</tspan></text>
+    <text x="{bar_x}" y="195" font-family="{FONT_MONO}" font-size="11.5" fill="{GRAY}">longest streak <tspan fill="{WHITE}" font-weight="700">{html.escape(best_str)}</tspan></text>
+  </g>
 </svg>
 '''
     (ASSETS_DIR / "stats_card.svg").write_text(svg, encoding="utf-8")
