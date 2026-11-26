@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="assets/hiak_hero.gif" alt="hiak — pixel lockup & moving mascot" width="460" />
+<img src="assets/hiak_mascot.gif" alt="hiak — pixel lockup & moving mascot" width="460" />
 
 <img src="assets/terminal_card.svg" alt="hiak / harsha — terminal identity card" width="760" />
 
