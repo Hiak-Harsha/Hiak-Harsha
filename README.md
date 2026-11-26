@@ -1,20 +1,16 @@
 <div align="center">
 
-<img src="assets/hiak_hero.gif" alt="hiak — OpenCode pixel lockup & moving mascot" width="540" />
-
-<br />
+<img src="assets/hiak_hero.gif" alt="hiak — pixel lockup & moving mascot" width="460" />
 
 <img src="assets/terminal_card.svg" alt="hiak / harsha — terminal identity card" width="760" />
 
-<br /><br />
+<br />
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A0A0A?style=flat-square&logo=linkedin&logoColor=EEEEEE&labelColor=282828)](https://www.linkedin.com/in/harsha-sri-vardhan-lalam-9705a52a0)
 [![Email](https://img.shields.io/badge/harshasrivardhan.lalam%40gmail.com-0A0A0A?style=flat-square&logo=gmail&logoColor=d97706&labelColor=282828)](mailto:harshasrivardhan.lalam@gmail.com)
 [![GitHub](https://img.shields.io/badge/GitHub-Hiak--Harsha-0A0A0A?style=flat-square&logo=github&logoColor=EEEEEE&labelColor=282828)](https://github.com/Hiak-Harsha)
 
 </div>
-
-<br />
 
 <img src="assets/header_about.svg" alt="about" width="760" />
 
@@ -27,15 +23,34 @@
   terminal-first developer tools, and full-stack software.
 ```
 
-<br />
-
 <img src="assets/header_builds.svg" alt="builds" width="760" />
 
 - [`Quant-Alpha-Engine`](https://github.com/Hiak-Harsha/Quant-Alpha-Engine) — multi-horizon market analysis, causal feature engineering & walk-forward backtesting
 - [`dynamic-dual-model`](https://github.com/Hiak-Harsha/dynamic-dual-model) — dual-path LLM routing between deterministic muscle memory and deliberative reasoning
-- [`custom-avatar-studio`](https://github.com/Hiak-Harsha/custom-avatar-studio) — OpenCode pixel typography engine & moving terminal/desktop mascot companion
+- [`custom-avatar-studio`](https://github.com/Hiak-Harsha/custom-avatar-studio) — pixel typography engine & moving terminal/desktop mascot companion
 
-<br />
+<details>
+<summary><code>+ more builds (click to expand)</code></summary>
+
+- [`SessionVault`](https://github.com/Hiak-Harsha/SessionVault) — Windows workspace & app preservation system with crash guard and startup recovery
+- [`Project-Graph`](https://github.com/Hiak-Harsha/Project-Graph) — codebase dependency audit dashboard across files, modules, APIs & databases
+- [`gsoc-navigator-os`](https://github.com/Hiak-Harsha/gsoc-navigator-os) — open-source & GSoC preparation workspace
+- [`Workspace-Navigator`](https://github.com/Hiak-Harsha/Workspace-Navigator) — multi-project workspace navigation utility
+- [`Cli-Setup`](https://github.com/Hiak-Harsha/Cli-Setup) — automated CLI environment setup tool
+- [`omnipolish`](https://github.com/Hiak-Harsha/omnipolish) — Python workflow & polish utilities
+- [`gitam-portal-assistant`](https://github.com/Hiak-Harsha/gitam-portal-assistant) — terminal CLI controller & customizer for GITAM GStudent Portal
+- [`win-touchpad-fix`](https://github.com/Hiak-Harsha/win-touchpad-fix) — universal Windows I2C HID touchpad & Code 10 fix in PowerShell
+- [`RAIL_OPT`](https://github.com/Hiak-Harsha/RAIL_OPT) — real-time railway traffic optimization & operations control center (`OR-Tools`, `Three.js`)
+- [`ChainSentinal`](https://github.com/Hiak-Harsha/ChainSentinal) — air-gapped Bitcoin transaction forensics & taint-tracing platform (`DuckDB`, `SHAP`)
+- [`BharatSR`](https://github.com/Hiak-Harsha/BharatSR) — 4× Sentinel-2 satellite image super-resolution pipeline (`PyTorch`, `GDAL`)
+- [`Sentinel-Flow-AI-Demo`](https://github.com/Hiak-Harsha/Sentinel-Flow-AI-Demo) — real-time AI network intrusion & anomaly detection (`Scikit-learn`, `FastAPI`)
+- [`Society-Vault`](https://github.com/Hiak-Harsha/Society-Vault) — auditable financial & loan management platform (`TypeScript`, `Prisma`, `Razorpay/Stripe`)
+- [`kee-crochet-shop`](https://github.com/Hiak-Harsha/kee-crochet-shop) — full-stack e-commerce platform with Razorpay checkout
+- [`Table-Tennis-Academy`](https://github.com/Hiak-Harsha/Table-Tennis-Academy) — multi-role academy management & Zod-validated billing platform
+- [`Career-Graph`](https://github.com/Hiak-Harsha/Career-Graph) — interactive visualization of projects, skills & credentials (`D3.js`, `FastAPI`)
+- [`Sahaaya`](https://github.com/Hiak-Harsha/Sahaaya) — Kotlin mobile application
+
+</details>
 
 <img src="assets/header_stack.svg" alt="stack" width="760" />
 
@@ -52,14 +67,12 @@
 ![Docker](https://img.shields.io/badge/Docker-0A0A0A?style=flat-square&logo=docker&logoColor=EEEEEE)
 ![Linux](https://img.shields.io/badge/Linux-0A0A0A?style=flat-square&logo=linux&logoColor=d97706)
 
-<br />
-
 <img src="assets/header_stats.svg" alt="stats" width="760" />
 
 <div align="center">
 
-<img src="https://github-readme-stats.vercel.app/api?username=Hiak-Harsha&show_icons=true&bg_color=0A0A0A&border_color=282828&title_color=EEEEEE&text_color=808080&icon_color=d97706&hide_border=false" height="165" alt="GitHub Stats" />
-<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=Hiak-Harsha&layout=compact&bg_color=0A0A0A&border_color=282828&title_color=EEEEEE&text_color=808080&hide_border=false" height="165" alt="Top Languages" />
+<img src="https://github-readme-stats.vercel.app/api?username=Hiak-Harsha&show_icons=true&bg_color=0A0A0A&border_color=282828&title_color=EEEEEE&text_color=808080&icon_color=d97706&hide_border=false" height="155" alt="GitHub Stats" />
+<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=Hiak-Harsha&layout=compact&bg_color=0A0A0A&border_color=282828&title_color=EEEEEE&text_color=808080&hide_border=false" height="155" alt="Top Languages" />
 
 <br />
 
