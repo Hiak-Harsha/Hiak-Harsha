@@ -32,23 +32,28 @@
 <details>
 <summary><code>+ more builds (click to expand)</code></summary>
 
-- [`SessionVault`](https://github.com/Hiak-Harsha/SessionVault) — Windows workspace & app preservation system with crash guard and startup recovery
-- [`Project-Graph`](https://github.com/Hiak-Harsha/Project-Graph) — codebase dependency audit dashboard across files, modules, APIs & databases
-- [`gsoc-navigator-os`](https://github.com/Hiak-Harsha/gsoc-navigator-os) — open-source & GSoC preparation workspace
+<!-- REPOS_START -->
+- [`Start---Up-Market-Research-Analysis`](https://github.com/Hiak-Harsha/Start---Up-Market-Research-Analysis) — startup funding & market research analysis
+- [`gsoc-navigator-os`](https://github.com/Hiak-Harsha/gsoc-navigator-os) — GSoC Navigator OS - An Intelligent Open-Source & GSoC Preparation Platform
 - [`Workspace-Navigator`](https://github.com/Hiak-Harsha/Workspace-Navigator) — multi-project workspace navigation utility
 - [`Cli-Setup`](https://github.com/Hiak-Harsha/Cli-Setup) — automated CLI environment setup tool
+- [`win-touchpad-fix`](https://github.com/Hiak-Harsha/win-touchpad-fix) — Universal Windows I2C HID Touchpad & Code 10 Fix for Lenovo, Dell, HP, Asus, and Acer laptops
+- [`SessionVault`](https://github.com/Hiak-Harsha/SessionVault) — Full-laptop workspace & application preservation system with crash guard and zero-click startup recovery for Windows
 - [`omnipolish`](https://github.com/Hiak-Harsha/omnipolish) — Python workflow & polish utilities
-- [`gitam-portal-assistant`](https://github.com/Hiak-Harsha/gitam-portal-assistant) — terminal CLI controller & customizer for GITAM GStudent Portal
-- [`win-touchpad-fix`](https://github.com/Hiak-Harsha/win-touchpad-fix) — universal Windows I2C HID touchpad & Code 10 fix in PowerShell
-- [`RAIL_OPT`](https://github.com/Hiak-Harsha/RAIL_OPT) — real-time railway traffic optimization & operations control center (`OR-Tools`, `Three.js`)
+- [`gitam-portal-assistant`](https://github.com/Hiak-Harsha/gitam-portal-assistant) — Terminal CLI controller, popup-killer, and customizer for GITAM GStudent Portal
+- [`Sahaaya`](https://github.com/Hiak-Harsha/Sahaaya) — Kotlin mobile application
+- [`Movie-Recommendation`](https://github.com/Hiak-Harsha/Movie-Recommendation) — movie recommendation engine in Python
+- [`Table-Tennis-Academy`](https://github.com/Hiak-Harsha/Table-Tennis-Academy) — multi-role academy management & Zod-validated billing platform
+- [`Sentinel-Flow-AI-Demo`](https://github.com/Hiak-Harsha/Sentinel-Flow-AI-Demo) — real-time AI network intrusion & anomaly detection (`Scikit-learn`, `FastAPI`)
 - [`ChainSentinal`](https://github.com/Hiak-Harsha/ChainSentinal) — air-gapped Bitcoin transaction forensics & taint-tracing platform (`DuckDB`, `SHAP`)
 - [`BharatSR`](https://github.com/Hiak-Harsha/BharatSR) — 4× Sentinel-2 satellite image super-resolution pipeline (`PyTorch`, `GDAL`)
-- [`Sentinel-Flow-AI-Demo`](https://github.com/Hiak-Harsha/Sentinel-Flow-AI-Demo) — real-time AI network intrusion & anomaly detection (`Scikit-learn`, `FastAPI`)
-- [`Society-Vault`](https://github.com/Hiak-Harsha/Society-Vault) — auditable financial & loan management platform (`TypeScript`, `Prisma`, `Razorpay/Stripe`)
 - [`kee-crochet-shop`](https://github.com/Hiak-Harsha/kee-crochet-shop) — full-stack e-commerce platform with Razorpay checkout
-- [`Table-Tennis-Academy`](https://github.com/Hiak-Harsha/Table-Tennis-Academy) — multi-role academy management & Zod-validated billing platform
+- [`RAIL_OPT`](https://github.com/Hiak-Harsha/RAIL_OPT) — real-time railway traffic optimization & operations control center (`OR-Tools`, `Three.js`)
+- [`Fake-News-Detector`](https://github.com/Hiak-Harsha/Fake-News-Detector) — fake news classification pipeline in Python
+- [`Project-Graph`](https://github.com/Hiak-Harsha/Project-Graph) — codebase dependency audit dashboard across files, modules, APIs & databases
 - [`Career-Graph`](https://github.com/Hiak-Harsha/Career-Graph) — interactive visualization of projects, skills & credentials (`D3.js`, `FastAPI`)
-- [`Sahaaya`](https://github.com/Hiak-Harsha/Sahaaya) — Kotlin mobile application
+- [`Society-Vault`](https://github.com/Hiak-Harsha/Society-Vault) — auditable financial & loan management platform (`TypeScript`, `Prisma`, `Razorpay/Stripe`)
+<!-- REPOS_END -->
 
 </details>
 
