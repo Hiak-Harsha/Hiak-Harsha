@@ -26,8 +26,8 @@
 <summary><code>+ more builds (click to expand)</code></summary>
 
 <!-- REPOS_START -->
-- [`Start---Up-Market-Research-Analysis`](https://github.com/Hiak-Harsha/Start---Up-Market-Research-Analysis) — startup funding & market research analysis
 - [`gsoc-navigator-os`](https://github.com/Hiak-Harsha/gsoc-navigator-os) — GSoC Navigator OS - An Intelligent Open-Source & GSoC Preparation Platform
+- [`Start---Up-Market-Research-Analysis`](https://github.com/Hiak-Harsha/Start---Up-Market-Research-Analysis) — startup funding & market research analysis
 - [`Workspace-Navigator`](https://github.com/Hiak-Harsha/Workspace-Navigator) — multi-project workspace navigation utility
 - [`Cli-Setup`](https://github.com/Hiak-Harsha/Cli-Setup) — automated CLI environment setup tool
 - [`win-touchpad-fix`](https://github.com/Hiak-Harsha/win-touchpad-fix) — Universal Windows I2C HID Touchpad & Code 10 Fix for Lenovo, Dell, HP, Asus, and Acer laptops
